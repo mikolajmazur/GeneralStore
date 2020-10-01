@@ -10,7 +10,12 @@ namespace GeneralStore.Api.Config
         public AutoMapperConfig()
         {
             CreateMap<Product, ProductDto>();
+            CreateMap<Product, ProductSimplifiedDto>();
             CreateMap<CreateProductCommand, Product>();
+            CreateMap<Category, CategoryDto>();
+            CreateMap<Order, OrderDto>()
+                .ForMember(dest => dest.CurrentStatus, opt => opt.MapFrom(source => source.CurrentStatus.ToString()));
+            CreateMap<OrderItem, OrderItemDto>();
         }
     }
 }

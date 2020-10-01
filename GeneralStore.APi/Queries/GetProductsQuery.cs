@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GeneralStore.Api.Queries
 {
-    public class GetProductsQuery : IRequest<IEnumerable<ProductDto>>
+    public class GetProductsQuery : IRequest<IEnumerable<ProductSimplifiedDto>>
     {
 		private int _pageNumber;
 		private int _pageSize;
@@ -25,5 +25,7 @@ namespace GeneralStore.Api.Queries
 			get { return _pageSize; }
 			set { _pageSize = value > MaxPageSize ? MaxPageSize : value; }
 		}
+
+        public Guid? CategoryId { get; set; }
     }
 }

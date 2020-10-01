@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GeneralStore.Api.Handlers
 {
-    public class GetProductsHandler : IRequestHandler<GetProductsQuery, IEnumerable<ProductDto>>
+    public class GetProductsHandler : IRequestHandler<GetProductsQuery, IEnumerable<ProductSimplifiedDto>>
     {
         private readonly StoreContext _context;
         private readonly IMapper _mapper;
@@ -23,16 +23,25 @@ namespace GeneralStore.Api.Handlers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IEnumerable<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductSimplifiedDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             var amountToSkip = request.PageSize * (request.PageNumber - 1);
-            var result = await _context.Products
-                .Where(product => !product.IsDeleted)
-                .Include(product => product.Manufacturer)
+
+            var query = _context.Products
+                .Where(product => !product.IsDeleted);
+
+            if (! (request.CategoryId is null))
+            {
+                query = query.Where(product => product.CategoryId == request.CategoryId);
+            }
+
+            query = query.Include(product => product.Manufacturer)
                 .Skip(amountToSkip)
-                .Take(request.PageSize)
-                .ToListAsync();
-            return _mapper.Map<IEnumerable<ProductDto>>(result);
+                .Take(request.PageSize);
+
+            var result = await query.ToListAsync();
+
+            return _mapper.Map<IEnumerable<ProductSimplifiedDto>>(result);
         }
     }
 }

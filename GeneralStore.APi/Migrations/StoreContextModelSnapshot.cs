@@ -38,7 +38,7 @@ namespace GeneralStore.Api.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -86,11 +86,68 @@ namespace GeneralStore.Api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GeneralStore.Api.Entities.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("TotalValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("GeneralStore.Api.Entities.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("GeneralStore.Api.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AvailableUnits")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
@@ -122,6 +179,7 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("9e64a226-43df-487e-aeae-883f40cab282"),
+                            AvailableUnits = 100,
                             CategoryId = new Guid("8c02b200-10de-40a7-a1c5-e963947f5697"),
                             Description = "Very good, very fast",
                             IsDeleted = false,
@@ -132,6 +190,7 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("4864203a-f343-4f51-ad6a-edeffe2bc77c"),
+                            AvailableUnits = 100,
                             CategoryId = new Guid("8c02b200-10de-40a7-a1c5-e963947f5697"),
                             Description = "Very pretty doll",
                             IsDeleted = false,
@@ -142,6 +201,7 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("acb091e9-3440-4e1b-8c72-3f7d07ffdb45"),
+                            AvailableUnits = 100,
                             CategoryId = new Guid("ef001e3f-472d-46b1-a8f8-32a15ebbc78b"),
                             Description = "White paper for printers",
                             IsDeleted = false,
@@ -152,6 +212,7 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("e8aab2b0-3092-4b63-a128-41730f06cb80"),
+                            AvailableUnits = 100,
                             CategoryId = new Guid("ef001e3f-472d-46b1-a8f8-32a15ebbc78b"),
                             Description = "Pretty notepad with 60 pages",
                             IsDeleted = false,
@@ -162,6 +223,7 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("53ce0364-8501-447d-953b-5a24f9a99a8d"),
+                            AvailableUnits = 100,
                             CategoryId = new Guid("ef001e3f-472d-46b1-a8f8-32a15ebbc78b"),
                             Description = "Cheap A4 notepad, 50 pages",
                             IsDeleted = false,
@@ -176,6 +238,15 @@ namespace GeneralStore.Api.Migrations
                     b.HasOne("GeneralStore.Api.Entities.Category", "ParentCategory")
                         .WithMany("SubCategories")
                         .HasForeignKey("ParentCategoryId");
+                });
+
+            modelBuilder.Entity("GeneralStore.Api.Entities.OrderItem", b =>
+                {
+                    b.HasOne("GeneralStore.Api.Entities.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GeneralStore.Api.Entities.Product", b =>

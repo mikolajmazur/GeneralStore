@@ -13,6 +13,8 @@ namespace GeneralStore.Api.Context
         public DbSet<Manufacturer> Manufacturers { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public StoreContext(DbContextOptions<StoreContext> options) 
             : base(options)
@@ -58,7 +60,8 @@ namespace GeneralStore.Api.Context
                     Description = "Very good, very fast",
                     Price = 120.0m,
                     ManufacturerId = new Guid("42727D34-66D1-41DA-9F5B-6991B869D140"),
-                    CategoryId = new Guid("8C02B200-10DE-40A7-A1C5-E963947F5697")
+                    CategoryId = new Guid("8C02B200-10DE-40A7-A1C5-E963947F5697"),
+                    AvailableUnits = 100
                 },
                 new Product 
                 {
@@ -67,7 +70,8 @@ namespace GeneralStore.Api.Context
                     Description = "Very pretty doll",
                     Price = 15.5m,
                     ManufacturerId = new Guid("42727D34-66D1-41DA-9F5B-6991B869D140"),
-                    CategoryId = new Guid("8C02B200-10DE-40A7-A1C5-E963947F5697")
+                    CategoryId = new Guid("8C02B200-10DE-40A7-A1C5-E963947F5697"),
+                    AvailableUnits = 100
                 },
                 new Product 
                 {
@@ -76,7 +80,8 @@ namespace GeneralStore.Api.Context
                     Description = "White paper for printers",
                     Price = 40m,
                     ManufacturerId = new Guid("6CED6BAF-1DA9-499B-96C2-DB3F6E3CF062"),
-                    CategoryId = new Guid("EF001E3F-472D-46B1-A8F8-32A15EBBC78B")
+                    CategoryId = new Guid("EF001E3F-472D-46B1-A8F8-32A15EBBC78B"),
+                    AvailableUnits = 100
                 },
                 new Product
                 {
@@ -85,7 +90,8 @@ namespace GeneralStore.Api.Context
                     Description = "Pretty notepad with 60 pages",
                     Price = 20m,
                     ManufacturerId = new Guid("6CED6BAF-1DA9-499B-96C2-DB3F6E3CF062"),
-                    CategoryId = new Guid("EF001E3F-472D-46B1-A8F8-32A15EBBC78B")
+                    CategoryId = new Guid("EF001E3F-472D-46B1-A8F8-32A15EBBC78B"),
+                    AvailableUnits = 100
                 },
                 new Product
                 {
@@ -94,7 +100,8 @@ namespace GeneralStore.Api.Context
                     Description = "Cheap A4 notepad, 50 pages",
                     Price = 8m,
                     ManufacturerId = new Guid("6CED6BAF-1DA9-499B-96C2-DB3F6E3CF062"),
-                    CategoryId = new Guid("EF001E3F-472D-46B1-A8F8-32A15EBBC78B")
+                    CategoryId = new Guid("EF001E3F-472D-46B1-A8F8-32A15EBBC78B"),
+                    AvailableUnits = 100
                 });
         }
     }

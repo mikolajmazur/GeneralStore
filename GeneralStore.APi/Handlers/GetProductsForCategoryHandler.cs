@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GeneralStore.Api.Context;
 using GeneralStore.Api.Dtos;
+using GeneralStore.Api.Helpers;
 using GeneralStore.Api.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace GeneralStore.Api.Handlers
 {
     public class GetProductsForCategoryHandler : IRequestHandler<GetProductsForCategoryQuery,
-        IEnumerable<ProductDto>>
+        PagedList<ProductSimplifiedDto>>
     {
         private readonly StoreContext _context;
         private readonly IMapper _mapper;
@@ -24,19 +25,34 @@ namespace GeneralStore.Api.Handlers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IEnumerable<ProductDto>> Handle(GetProductsForCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<ProductSimplifiedDto>> Handle(GetProductsForCategoryQuery request, CancellationToken cancellationToken)
         {
-            /*
-            var result = await _context.Products
+            var amountToSkip = (request.PageNumber - 1) * request.PageSize;
+            var totalMatchingProducts = await _context.Products
+                .Where(product => product.CategoryId == request.CategoryId
+                                   && !product.IsDeleted)
+                .CountAsync();
+            var pageNumber = request.PageNumber;
+            var totalPages = (int)(Math.Ceiling(totalMatchingProducts / (double)request.PageSize));
+
+            if (amountToSkip >= totalMatchingProducts)
+            {
+                amountToSkip = (totalMatchingProducts - request.PageSize) > 0 ? (totalMatchingProducts - request.PageSize) : 0;
+                pageNumber = totalPages;
+            }
+
+            var returnedProducts = await _context.Products
                 .Where(product => product.CategoryId == request.CategoryId
                                 && !product.IsDeleted)
                 .Include(product => product.Manufacturer)
                 .Skip(amountToSkip)
-                .Take(pageSize)
+                .Take(request.PageSize)
                 .ToListAsync();
+            var mappedProducts = _mapper.Map <IEnumerable<ProductSimplifiedDto>>(returnedProducts);
 
-            return _mapper.Map<IEnumerable<ProductDto>>(result); */
-            throw new NotImplementedException();
+            var pagedResult = new PagedList<ProductSimplifiedDto>(mappedProducts, pageNumber, request.PageSize, totalMatchingProducts);
+
+            return pagedResult; 
         }
     }
 }

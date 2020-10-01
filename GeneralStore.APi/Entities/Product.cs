@@ -8,6 +8,7 @@ namespace GeneralStore.Api.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public int AvailableUnits { get; set; }
         [ForeignKey("ManufacturerId")]
         public Manufacturer Manufacturer { get; set; }
         public Guid ManufacturerId { get; set; }

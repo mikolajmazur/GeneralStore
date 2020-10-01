@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeneralStore.Api.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20200420163431_First")]
-    partial class First
+    [Migration("20200930123357_baseModel")]
+    partial class baseModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,11 +21,50 @@ namespace GeneralStore.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("GeneralStore.Api.Entities.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParentCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentCategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8c02b200-10de-40a7-a1c5-e963947f5697"),
+                            IsDeleted = false,
+                            Name = "Toys"
+                        },
+                        new
+                        {
+                            Id = new Guid("ef001e3f-472d-46b1-a8f8-32a15ebbc78b"),
+                            IsDeleted = false,
+                            Name = "Paper products"
+                        });
+                });
+
             modelBuilder.Entity("GeneralStore.Api.Entities.Manufacturer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -38,11 +77,13 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("42727d34-66d1-41da-9f5b-6991b869d140"),
+                            IsDeleted = false,
                             Name = "Timmy"
                         },
                         new
                         {
                             Id = new Guid("6ced6baf-1da9-499b-96c2-db3f6e3cf062"),
+                            IsDeleted = false,
                             Name = "Papierex"
                         });
                 });
@@ -53,8 +94,14 @@ namespace GeneralStore.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("ManufacturerId")
                         .HasColumnType("uniqueidentifier");
@@ -67,6 +114,8 @@ namespace GeneralStore.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("ManufacturerId");
 
                     b.ToTable("Products");
@@ -75,7 +124,9 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("9e64a226-43df-487e-aeae-883f40cab282"),
+                            CategoryId = new Guid("8c02b200-10de-40a7-a1c5-e963947f5697"),
                             Description = "Very good, very fast",
+                            IsDeleted = false,
                             ManufacturerId = new Guid("42727d34-66d1-41da-9f5b-6991b869d140"),
                             Name = "Toy car",
                             Price = 120.0m
@@ -83,7 +134,9 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("4864203a-f343-4f51-ad6a-edeffe2bc77c"),
+                            CategoryId = new Guid("8c02b200-10de-40a7-a1c5-e963947f5697"),
                             Description = "Very pretty doll",
+                            IsDeleted = false,
                             ManufacturerId = new Guid("42727d34-66d1-41da-9f5b-6991b869d140"),
                             Name = "Doll",
                             Price = 15.5m
@@ -91,7 +144,9 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("acb091e9-3440-4e1b-8c72-3f7d07ffdb45"),
+                            CategoryId = new Guid("ef001e3f-472d-46b1-a8f8-32a15ebbc78b"),
                             Description = "White paper for printers",
+                            IsDeleted = false,
                             ManufacturerId = new Guid("6ced6baf-1da9-499b-96c2-db3f6e3cf062"),
                             Name = "500 paper sheets",
                             Price = 40m
@@ -99,7 +154,9 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("e8aab2b0-3092-4b63-a128-41730f06cb80"),
+                            CategoryId = new Guid("ef001e3f-472d-46b1-a8f8-32a15ebbc78b"),
                             Description = "Pretty notepad with 60 pages",
+                            IsDeleted = false,
                             ManufacturerId = new Guid("6ced6baf-1da9-499b-96c2-db3f6e3cf062"),
                             Name = "Pretty A4 notepad",
                             Price = 20m
@@ -107,15 +164,30 @@ namespace GeneralStore.Api.Migrations
                         new
                         {
                             Id = new Guid("53ce0364-8501-447d-953b-5a24f9a99a8d"),
+                            CategoryId = new Guid("ef001e3f-472d-46b1-a8f8-32a15ebbc78b"),
                             Description = "Cheap A4 notepad, 50 pages",
+                            IsDeleted = false,
                             ManufacturerId = new Guid("6ced6baf-1da9-499b-96c2-db3f6e3cf062"),
                             Name = "Ugly, but cheap A4 notepad",
                             Price = 8m
                         });
                 });
 
+            modelBuilder.Entity("GeneralStore.Api.Entities.Category", b =>
+                {
+                    b.HasOne("GeneralStore.Api.Entities.Category", "ParentCategory")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("ParentCategoryId");
+                });
+
             modelBuilder.Entity("GeneralStore.Api.Entities.Product", b =>
                 {
+                    b.HasOne("GeneralStore.Api.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GeneralStore.Api.Entities.Manufacturer", "Manufacturer")
                         .WithMany("ManufacturedProducts")
                         .HasForeignKey("ManufacturerId")

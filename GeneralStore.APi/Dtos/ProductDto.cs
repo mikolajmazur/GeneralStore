@@ -11,6 +11,7 @@ namespace GeneralStore.Api.Dtos
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public int AvailableUnits { get; set; }
         public Guid ManufacturerId { get; set; }
         public string ManufacturerName { get; set; }
         public Guid CategoryId { get; set; }
