@@ -16,6 +16,9 @@ namespace GeneralStore.Api.Config
             CreateMap<Order, OrderDto>()
                 .ForMember(dest => dest.CurrentStatus, opt => opt.MapFrom(source => source.CurrentStatus.ToString()));
             CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<User, UserDto>();
+            CreateMap<UserSignUpDto, User>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(source => source.Email));
         }
     }
 }

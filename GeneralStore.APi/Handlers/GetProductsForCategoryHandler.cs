@@ -44,6 +44,7 @@ namespace GeneralStore.Api.Handlers
             var returnedProducts = await _context.Products
                 .Where(product => product.CategoryId == request.CategoryId
                                 && !product.IsDeleted)
+                .OrderByString(request.OrderBy)
                 .Include(product => product.Manufacturer)
                 .Skip(amountToSkip)
                 .Take(request.PageSize)

@@ -10,6 +10,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using GeneralStore.Api.Commands;
 using GeneralStore.Api.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GeneralStore.Api.Controllers
 {
@@ -26,6 +27,7 @@ namespace GeneralStore.Api.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
+        [Authorize(Roles = "customer")]
         [HttpGet("{id}", Name = "GetProductAsync")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

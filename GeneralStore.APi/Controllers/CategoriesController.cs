@@ -32,9 +32,13 @@ namespace GeneralStore.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PagedList<ProductSimplifiedDto>>> GetProductsForCategory(Guid id,
-            int? pageNumber, int? pageSize)
+            int? pageNumber, int? pageSize, string? orderBy)
         {
-            var query = new GetProductsForCategoryQuery(pageNumber, pageSize) { CategoryId = id };
+            var query = new GetProductsForCategoryQuery(pageNumber, pageSize) 
+            { 
+                CategoryId = id,
+                OrderBy = orderBy
+            };
             var result = await _mediator.Send(query);
             return Ok(result);
         }

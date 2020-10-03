@@ -1,4 +1,5 @@
 ﻿using GeneralStore.Api.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GeneralStore.Api.Context
 {
-    public class StoreContext : DbContext
+    public class StoreContext : IdentityDbContext<User, Role, Guid>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
@@ -23,6 +24,7 @@ namespace GeneralStore.Api.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             // manufacturers
             modelBuilder.Entity<Manufacturer>().HasData(
                 new Manufacturer 

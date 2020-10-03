@@ -11,6 +11,8 @@ namespace GeneralStore.Api.Queries
     public class GetProductsForCategoryQuery : IRequest<PagedList<ProductSimplifiedDto>>
     {
         public Guid CategoryId { get; set; }
+        public string OrderBy { get; set; }
+
         public int PageSize
         {
             get { return _pageSize; }

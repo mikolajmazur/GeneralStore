@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "a97d5a82-165e-4325-93ad-da3dcd6efbcb",
+		"name": "GeneralStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET single product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44349/api/v1/products/E8AAB2B0-3092-4B63-A128-41730F06CB80",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"E8AAB2B0-3092-4B63-A128-41730F06CB80"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get not existing product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44349/api/v1/products/E8AAB2B0-3092-4B63-A128-41730F06C666",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"E8AAB2B0-3092-4B63-A128-41730F06C666"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create valid product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Dildo\",\r\n    \"description\": \"A very big dildo\",\r\n    \"price\": 10.0,\r\n    \"manufacturerId\": \"42727d34-66d1-41da-9f5b-6991b869d140\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44349/api/v1/products",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create invalid product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"A very big dildo\",\r\n    \"price\": 10.0,\r\n    \"manufacturerId\": \"42727d34-66d1-41da-9f5b-6991b869d140\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44349/api/v1/products",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a page of products ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44349/api/v1/products",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44349/api/v1/categoriess",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"categoriess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get products in category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44349/api/v1/categories/ef001e3f-472d-46b1-a8f8-32a15ebbc78b/products",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"categories",
+						"ef001e3f-472d-46b1-a8f8-32a15ebbc78b",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44349/api/v1/orders",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post create order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    { \"ItemId\": \"acb091e9-3440-4e1b-8c72-3f7d07ffdb45\", \"amount\": 2},\r\n    { \"ItemID\": \"e8aab2b0-3092-4b63-a128-41730f06cb80\", \"amount\": 4}\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44349/api/v1/orders",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44349",
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
