@@ -27,7 +27,6 @@ namespace GeneralStore.Api.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [Authorize(Roles = "customer")]
         [HttpGet("{id}", Name = "GetProductAsync")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

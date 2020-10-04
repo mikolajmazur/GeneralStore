@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralStore.Tests", "GeneralStore.Tests\GeneralStore.Tests.csproj", "{0D2B8BCF-B63E-400F-BC32-AA24B680076C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralStore.Tests", "GeneralStore.Tests\GeneralStore.Tests.csproj", "{0D2B8BCF-B63E-400F-BC32-AA24B680076C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralStore.Frontend", "GeneralStore.Frontend\GeneralStore.Frontend.csproj", "{106D5868-4A04-48A7-8944-E13E157E420F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralStore.Frontend", "GeneralStore.Frontend\GeneralStore.Frontend.csproj", "{3E09E096-A2ED-4467-9160-666D467CE22C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +28,10 @@ Global
 		{0D2B8BCF-B63E-400F-BC32-AA24B680076C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D2B8BCF-B63E-400F-BC32-AA24B680076C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D2B8BCF-B63E-400F-BC32-AA24B680076C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{106D5868-4A04-48A7-8944-E13E157E420F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{106D5868-4A04-48A7-8944-E13E157E420F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{106D5868-4A04-48A7-8944-E13E157E420F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{106D5868-4A04-48A7-8944-E13E157E420F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E09E096-A2ED-4467-9160-666D467CE22C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E09E096-A2ED-4467-9160-666D467CE22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E09E096-A2ED-4467-9160-666D467CE22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E09E096-A2ED-4467-9160-666D467CE22C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

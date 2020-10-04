@@ -1,0 +1,17 @@
+<h2>Produkty</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <td scope="col">Nazwa</td>
+      <td scope="col">Cena</td>
+      <td scope="col"></td>
+    </tr>
+  </thead>
+  <tr *ngFor="let product of products">
+    <td>{{ product.name }}</td>
+    <td>{{ product.price }}</td>
+    <td><button type="button" class="btn btn-primary">Zamów</button></td>
+  </tr>
+</table>
+
+  <h3>{{ productWithDetails.Id }}</h3>

@@ -1,6 +1,6 @@
 using System;
 
-namespace GeneralStore.Frontend
+namespace TestFront
 {
     public class WeatherForecast
     {
