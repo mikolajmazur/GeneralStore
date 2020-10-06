@@ -1,2 +1,20 @@
-<p>{{ (product$ | async).id }}</p>
 <h3>{{ (product$ | async).name }}</h3>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      {{ (product$ | async).description }}
+    </div>
+    <div class="col">
+      Cena: {{ (product$ | async).price }} <br />
+      <input type="number" value="1" /> <br />
+      <button type="button" class="btn btn-primary">Do koszyka</button>
+    </div>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-primary" (click)="testWrite()">test write</button>
+    <button type="button" class="btn btn-primary" (click)="testRead()">test read</button>
+  </div>
+</div>
+<div>
+  
+</div>

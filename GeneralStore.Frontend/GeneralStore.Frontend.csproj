@@ -24,11 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\CartItem.ts" />
     <None Remove="ClientApp\src\app\Product.ts" />
+    <None Remove="ClientApp\src\app\ProductOrderItem.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\CartItem.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Product.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\ProductOrderItem.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
