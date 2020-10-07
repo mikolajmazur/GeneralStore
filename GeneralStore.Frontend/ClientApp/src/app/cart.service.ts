@@ -10,12 +10,18 @@ export class CartService {
 
   addItem(item: CartItem): void {
     let currentItemsJson = localStorage.getItem("cart");
-    let currentItems;
+    let currentItems: [CartItem];
     if (currentItemsJson === null) {
       currentItems = [item];
     } else {
       currentItems = JSON.parse(currentItemsJson);
-      currentItems.push(item);
+      let existingItem: CartItem;
+      if (existingItem = currentItems.find(i => i.id === item.id)) {
+        // item already exists in cart, increment amount
+        existingItem.amount++;
+      } else {
+        currentItems.push(item);
+      }
     }
     localStorage.setItem("cart", JSON.stringify(currentItems));
   }
@@ -23,6 +29,8 @@ export class CartService {
   getItems(): CartItem[] {
     return JSON.parse(localStorage.getItem("cart"));
   }
+
+
 
   clearCart(): void {
     localStorage.removeItem("cart");

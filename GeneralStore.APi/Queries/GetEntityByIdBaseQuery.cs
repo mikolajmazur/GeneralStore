@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GeneralStore.Api.Queries
 {
-    public class GetEntityByIdQuery<TResponse> : IRequest<TResponse>
+    public class GetEntityByIdBaseQuery<TResponse> : IRequest<TResponse>
     {
         public Guid Id { get; set; }
     }

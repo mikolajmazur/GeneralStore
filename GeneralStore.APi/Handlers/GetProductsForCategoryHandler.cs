@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GeneralStore.Api.Context;
 using GeneralStore.Api.Dtos;
+using GeneralStore.Api.Entities;
 using GeneralStore.Api.Helpers;
 using GeneralStore.Api.Queries;
 using MediatR;
@@ -28,10 +29,7 @@ namespace GeneralStore.Api.Handlers
         public async Task<PagedList<ProductSimplifiedDto>> Handle(GetProductsForCategoryQuery request, CancellationToken cancellationToken)
         {
             var amountToSkip = (request.PageNumber - 1) * request.PageSize;
-            var totalMatchingProducts = await _context.Products
-                .Where(product => product.CategoryId == request.CategoryId
-                                   && !product.IsDeleted)
-                .CountAsync();
+            int totalMatchingProducts = await CountMatchingProducts(request, cancellationToken);
             var pageNumber = request.PageNumber;
             var totalPages = (int)(Math.Ceiling(totalMatchingProducts / (double)request.PageSize));
 
@@ -40,20 +38,32 @@ namespace GeneralStore.Api.Handlers
                 amountToSkip = (totalMatchingProducts - request.PageSize) > 0 ? (totalMatchingProducts - request.PageSize) : 0;
                 pageNumber = totalPages;
             }
+            List<Product> returnedProducts = await getProducts(request, amountToSkip, cancellationToken);
+            var mappedProducts = _mapper.Map<IEnumerable<ProductSimplifiedDto>>(returnedProducts);
 
-            var returnedProducts = await _context.Products
+            var pagedResult = new PagedList<ProductSimplifiedDto>(mappedProducts, pageNumber, request.PageSize, totalMatchingProducts);
+
+            return pagedResult;
+        }
+
+        private async Task<int> CountMatchingProducts(GetProductsForCategoryQuery request, CancellationToken cancellationToken)
+        {
+            return await _context.Products
+                            .Where(product => product.CategoryId == request.CategoryId
+                                               && !product.IsDeleted)
+                            .CountAsync(cancellationToken);
+        }
+
+        private async Task<List<Product>> getProducts(GetProductsForCategoryQuery request, int amountToSkip, CancellationToken cancellationToken)
+        {
+            return await _context.Products
                 .Where(product => product.CategoryId == request.CategoryId
                                 && !product.IsDeleted)
                 .OrderByString(request.OrderBy)
                 .Include(product => product.Manufacturer)
                 .Skip(amountToSkip)
                 .Take(request.PageSize)
-                .ToListAsync();
-            var mappedProducts = _mapper.Map <IEnumerable<ProductSimplifiedDto>>(returnedProducts);
-
-            var pagedResult = new PagedList<ProductSimplifiedDto>(mappedProducts, pageNumber, request.PageSize, totalMatchingProducts);
-
-            return pagedResult; 
+                .ToListAsync(cancellationToken);
         }
     }
 }

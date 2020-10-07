@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace GeneralStore.Api.Queries
 {
-    public class GetProductByIdQuery : GetEntityByIdQuery<ProductDto>
+    public class GetProductByIdQuery : GetEntityByIdBaseQuery<ProductDto>
     {}
 }

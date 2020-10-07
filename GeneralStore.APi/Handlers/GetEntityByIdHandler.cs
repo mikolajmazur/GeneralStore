@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GeneralStore.Api.Handlers
 {
-    public class GetEntityByIdHandler<T> : IRequestHandler<GetEntityByIdQuery<T>, T>
+    public class GetEntityByIdHandler<T> : IRequestHandler<GetEntityByIdBaseQuery<T>, T>
         where T: BaseEntity
     {
         private readonly StoreContext _context;
@@ -23,7 +23,7 @@ namespace GeneralStore.Api.Handlers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<T> Handle(Queries.GetEntityByIdQuery<T> request, CancellationToken cancellationToken)
+        public async Task<T> Handle(Queries.GetEntityByIdBaseQuery<T> request, CancellationToken cancellationToken)
         {
             var result = await _context.FindAsync<T>(request.Id);
             return result;

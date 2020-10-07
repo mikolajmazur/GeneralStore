@@ -6,6 +6,7 @@ using GeneralStore.Api.Entities;
 using GeneralStore.Api.Helpers;
 using GeneralStore.Api.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,10 +32,11 @@ namespace GeneralStore.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<OrderDto>> CreateOrder([FromBody] IEnumerable<OrderItemCreateDto> orderElements)
         {
             var orderCommand = new CreateOrderCommand() { Items = orderElements };
@@ -67,10 +69,12 @@ namespace GeneralStore.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedList<OrderDto>>> GetAllOrdersAsync(int? pageSize, int? pageNumber)
+        public async Task<ActionResult<PagedList<OrderDto>>> GetAllOrdersAsync(int? pageSize, int? pageNumber,
+            string orderBy)
         {
-            var query = new GetOrdersQuery(pageNumber, pageSize);
+            var query = new GetOrdersQuery(pageNumber, pageSize) { OrderBy = orderBy };
             var result = await _mediator.Send(query);
             return result;
         }

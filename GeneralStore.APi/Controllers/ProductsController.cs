@@ -61,23 +61,29 @@ namespace GeneralStore.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, employee")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<ProductDto>> CreateProductAsync(
             [FromBody] CreateProductCommand createProductCommand)
         {
             var returnDto = await _mediator.Send(createProductCommand);
+            if (returnDto == null)
+            {
+                return BadRequest();
+            }
             return CreatedAtRoute("GetProductAsync", new { returnDto.Id }, returnDto);
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> DeleteProductAsync(Guid id)
         {
             var request = new DeleteEntityByIdCommand<Product> { Id = id };
@@ -90,6 +96,17 @@ namespace GeneralStore.Api.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "admin, employee")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> UpdateProductAsync(Guid id, [FromBody] UpdateProductDto dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
